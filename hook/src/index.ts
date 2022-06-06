@@ -2,9 +2,11 @@ import { Dialute, SberRequest } from 'dialute';
 import fetch from 'cross-fetch';
 
 async function load(a: string){
+  console.log('load');
   return await fetch(a).then(res => res.json());
 }
 async function upload(a: string, b: any){
+  console.log('upload');
   if(b.loaded) await fetch(a, { method: 'POST', body: JSON.stringify(b), headers: { 'Content-Type': 'application/json' }});
 }
 
