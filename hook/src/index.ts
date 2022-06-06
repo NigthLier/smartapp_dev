@@ -167,6 +167,7 @@ function* script(r: SberRequest) {
         upload(url, state);
         f = true;
         rsp.msg = 'Обнулено';
+        yield rsp;
       }
       if(!f){
         rsp.msg = 'Я вас не понимаю';
