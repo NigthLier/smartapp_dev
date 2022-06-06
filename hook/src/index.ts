@@ -2,7 +2,10 @@ import { Dialute, SberRequest } from 'dialute';
 import fetch from 'cross-fetch';
 
 async function load(a: string){
+<<<<<<< HEAD
   console.log('load');
+=======
+>>>>>>> parent of a90f848 (Update index.ts)
   return await fetch(a).then(res => res.json());
 }
 async function upload(a: string, b: any){
