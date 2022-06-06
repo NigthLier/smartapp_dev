@@ -1,11 +1,13 @@
 import { Dialute, SberRequest } from 'dialute';
 import fetch from 'cross-fetch';
+import axios from 'axios';
 
 async function load(a: string){
   return await fetch(a).then(res => res.json());
 }
 async function upload(a: string, b: any){
-    if(b.loaded) await fetch(a, { method: 'POST', body: JSON.stringify(b), headers: { 'Content-Type': 'application/json' }});
+  let err = true;
+  while(err) if(b.loaded) await axios.post(a, b).then(x => {err = false;}).catch(x => {err = true;});
 }
 
 function numstring(a: string){
