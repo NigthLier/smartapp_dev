@@ -85,7 +85,8 @@ function* script(r: SberRequest) {
       if (r.act?.action_id === 'AddWater') {
         if(state.waterCount + 200 <= state.waterMax){
           state.waterCount += 200;
-          upload(url, state);
+          for (let i = 0; i < 5; i++)
+            upload(url, state);
           rsp.msg = 'Вы выпили 200 миллилитров, так держать!';
           yield rsp;
         }
@@ -93,7 +94,8 @@ function* script(r: SberRequest) {
       if (r.act?.action_id === 'AddMax') {
         if(state.waterMax + 200 <= 4000){
           state.waterMax += 200;
-          upload(url, state);
+          for (let i = 0; i < 5; i++)
+            upload(url, state);
           rsp.msg = 'Суточная норма увеличена на 200 миллилитров';
           yield rsp;
         }
@@ -101,7 +103,8 @@ function* script(r: SberRequest) {
       if (r.act?.action_id === 'SubMax') {
         if(state.waterMax - 200 >= 200){
           state.waterMax -= 200;
-          upload(url, state);
+          for (let i = 0; i < 5; i++)
+            upload(url, state);
           rsp.msg = 'Суточная норма уменьшена на 200 миллилитров';
           yield rsp;
         }
