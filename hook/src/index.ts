@@ -6,8 +6,7 @@ async function load(a: string){
   return await fetch(a).then(res => res.json());
 }
 async function upload(a: string, b: any){
-  let err = true;
-  while(err) if(b.loaded) await axios.post(a, b).then(x => {err = false;}).catch(x => {err = true;});
+  if(b.loaded) await axios.post(a, b);
 }
 
 function numstring(a: string){
