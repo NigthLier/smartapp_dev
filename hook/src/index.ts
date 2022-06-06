@@ -179,6 +179,7 @@ function* script(r: SberRequest) {
         rsp.msg = 'Я вас не понимаю';
         yield rsp;
       }
+      upload(url, state);
     }
   }
 }
