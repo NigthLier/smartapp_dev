@@ -6,7 +6,7 @@ export const themes = { eva: darkEva, joy: darkJoy, sber: darkSber };
 export function getTheme(character) {
   return css.of(themes[character]);
 }
-darkEva[':root']['--plasma-colors-gradientDevice']
+
 const sheetIndex = 1;
 
 export function setTheme(character) {
