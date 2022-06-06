@@ -1,9 +1,8 @@
 import { Dialute, SberRequest } from 'dialute';
-import fetch from 'cross-fetch';
 import axios from 'axios';
 
 async function load(a: string){
-  return await fetch(a).then(res => res.json());
+  return await axios.get(a).then(resp => {return resp.data;});
 }
 async function upload(a: string, b: any){
   if(b.loaded) await axios.post(a, b);
@@ -77,8 +76,8 @@ function* script(r: SberRequest) {
   yield rsp;
 
   const url = 'https://smartapp-code.sberdevices.ru/tools/api/data/webdbg_userid_7n3f5ey3ni04i3io6gfld';
-  load(url).then(temp => { if (temp.waterMax === undefined) { state.loaded = true; upload(url, state); } else { if(state.date === temp.date) { state.waterCount += temp.waterCount; } state.waterMax += temp.waterMax - 2000; state.date = temp.date; state.loaded = true; }}).then(cur => upload(url, state));
-  
+  load(url).then(temp => { state.loaded = true; if (JSON.stringify(temp) != JSON.stringify({})) { if(state.date == temp.date) { state.waterCount += temp.waterCount; } state.waterMax += temp.waterMax - 2000; } upload(url, state);});
+
   while (true) {
     if(r.type === 'SERVER_ACTION')
     {

@@ -72,8 +72,6 @@
     })
   }
   
-  //let timerId = setInterval(() => handledel(), 5000);
-  //setTimeout(() => { clearInterval(timerId); handledel();}, 100000);
 </script>
 
 <main>
