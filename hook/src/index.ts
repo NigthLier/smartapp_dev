@@ -2,11 +2,8 @@ import { Dialute, SberRequest } from 'dialute';
 import fetch from 'cross-fetch';
 
 async function load(a: string){
-<<<<<<< HEAD
   console.log('load');
-=======
->>>>>>> parent of a90f848 (Update index.ts)
-  return await fetch(a).then(res => res.json());
+  return await fetch(a).then((res) => { if (!res.ok) { throw new Error("Error occurred!"); } return res.json(); }).catch((err) => {console.log(err);});
 }
 async function upload(a: string, b: any){
   console.log('upload');
@@ -81,7 +78,7 @@ function* script(r: SberRequest) {
   yield rsp;
 
   const url = 'https://smartapp-code.sberdevices.ru/tools/api/data/webdbg_userid_7n3f5ey3ni04i3io6gfld';
-  load(url).then(temp => { if (temp.waterMax === undefined) { state.loaded = true; upload(url, state); } else { if(state.date === temp.date) {state.waterCount += temp.waterCount; state.waterMax += temp.waterMax;} state.date = temp.date; state.loaded = true; }});
+  load(url).then(temp => { if (temp.waterMax === undefined) { state.loaded = true; upload(url, state); } else { if(state.date === temp.date) { state.waterCount += temp.waterCount; } state.waterMax += temp.waterMax - 2000; state.date = temp.date; state.loaded = true; }});
 
   while (true) {
     if(r.type === 'SERVER_ACTION')
