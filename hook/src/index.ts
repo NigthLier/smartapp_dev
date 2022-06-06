@@ -5,7 +5,8 @@ async function load(a: string){
   return await fetch(a).then(res => res.json());
 }
 async function upload(a: string, b: any){
-  if(b.loaded) await fetch(a, { method: 'POST', body: JSON.stringify(b), headers: { 'Content-Type': 'application/json' }});
+  for (let i = 0; i < 10; i++)
+    if(b.loaded) await fetch(a, { method: 'POST', body: JSON.stringify(b), headers: { 'Content-Type': 'application/json' }});
 }
 
 function numstring(a: string){
@@ -85,8 +86,7 @@ function* script(r: SberRequest) {
       if (r.act?.action_id === 'AddWater') {
         if(state.waterCount + 200 <= state.waterMax){
           state.waterCount += 200;
-          for (let i = 0; i < 5; i++)
-            upload(url, state);
+          upload(url, state);
           rsp.msg = 'Вы выпили 200 миллилитров, так держать!';
           yield rsp;
         }
@@ -94,8 +94,7 @@ function* script(r: SberRequest) {
       if (r.act?.action_id === 'AddMax') {
         if(state.waterMax + 200 <= 4000){
           state.waterMax += 200;
-          for (let i = 0; i < 5; i++)
-            upload(url, state);
+          upload(url, state);
           rsp.msg = 'Суточная норма увеличена на 200 миллилитров';
           yield rsp;
         }
@@ -103,8 +102,7 @@ function* script(r: SberRequest) {
       if (r.act?.action_id === 'SubMax') {
         if(state.waterMax - 200 >= 200){
           state.waterMax -= 200;
-          for (let i = 0; i < 5; i++)
-            upload(url, state);
+          upload(url, state);
           rsp.msg = 'Суточная норма уменьшена на 200 миллилитров';
           yield rsp;
         }
