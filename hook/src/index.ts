@@ -5,7 +5,7 @@ async function load(a: string){
   return await fetch(a).then(res => res.json());
 }
 async function upload(a: string, b: any){
-  for (let i = 0; i < 10; i++)
+  for (let i = 0; i < 20; i++)
     if(b.loaded) await fetch(a, { method: 'POST', body: JSON.stringify(b), headers: { 'Content-Type': 'application/json' }});
 }
 
@@ -78,7 +78,7 @@ function* script(r: SberRequest) {
 
   const url = 'https://smartapp-code.sberdevices.ru/tools/api/data/webdbg_userid_7n3f5ey3ni04i3io6gfld';
   for (let i = 0; i < 2; i++)
-    load(url).then(temp => { if (temp.waterMax === undefined) { state.loaded = true; upload(url, state); } else { if(state.date === temp.date) { state.waterCount += temp.waterCount; } state.waterMax += temp.waterMax - 2000; state.date = temp.date; state.loaded = true; }});
+    load(url).then(temp => { if (temp.waterMax === undefined) { state.loaded = true; upload(url, state); } else { if(state.date === temp.date) { state.waterCount += temp.waterCount; } state.waterMax += temp.waterMax - 2000; state.date = temp.date; state.loaded = true; }}).then(cur => upload(url, state));
   
   while (true) {
     if(r.type === 'SERVER_ACTION')
