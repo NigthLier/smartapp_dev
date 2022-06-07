@@ -111,6 +111,7 @@ function* script(r: SberRequest) {
       if(splitted.filter(word => word.indexOf('суточн') != -1 || word.indexOf('норм') != -1).length > 0){
         if(splitted.filter(word => word.indexOf('увелич') != -1).length > 0 || splitted.filter(word => word.indexOf('добав') != -1).length > 0){
           if(numbered != 0){
+            if(r.msg.toLowerCase().indexOf('стакан') != -1){ numbered *= 200;}
             state.waterMax += numbered;
             if(state.waterMax > 4000) { state.waterMax = 4000; }
             upload(url, state);
@@ -121,6 +122,7 @@ function* script(r: SberRequest) {
         }
         if(splitted.filter(word => word.indexOf('уменьш') != -1).length > 0 || splitted.filter(word => word.indexOf('отним') != -1).length > 0){
           if(numbered != 0){
+            if(r.msg.toLowerCase().indexOf('стакан') != -1){ numbered *= 200;}
             state.waterMax -= numbered;
             if(state.waterMax < 200){ state.waterMax = 200; }
             upload(url, state);
@@ -131,6 +133,7 @@ function* script(r: SberRequest) {
         }
         if(splitted.filter(word => word.indexOf('устан') != -1).length > 0 || splitted.filter(word => word.indexOf('пост') != -1).length > 0){
           if(numbered != 0){
+            if(r.msg.toLowerCase().indexOf('стакан') != -1){ numbered *= 200;}
             state.waterMax = numbered;
             if(state.waterMax < 200){ state.waterMax = 200; }
             if(state.waterMax > 4000) { state.waterMax = 4000; }
@@ -143,22 +146,13 @@ function* script(r: SberRequest) {
       }
       if(splitted.filter(word => word.indexOf('выпил') != -1 || word.indexOf('пью') != -1).length > 0){
         if(numbered != 0){
-          if(r.msg.toLowerCase().indexOf('стакан') != -1){
-            numbered *= 200;
-            state.waterCount += numbered;
-            if(state.waterCount > state.waterMax) { state.waterCount = state.waterMax; }
-            upload(url, state);
-            f = true;
-            rsp.msg = 'Вы выпили ' + numbered + ' миллилитров , так держать!';
-            yield rsp;
-          } else {
-            state.waterCount += numbered;
-            if(state.waterCount > state.waterMax) { state.waterCount = state.waterMax; }
-            upload(url, state);
-            f = true;
-            rsp.msg = 'Вы выпили ' + numbered + ' ' + (splitted.filter(word => word.indexOf('миллилитр') != -1).length > 0 ? splitted.filter(word => word.indexOf('миллилитр') != -1)[0] : 'миллилитров') + ', так держать!';
-            yield rsp;
-          }
+          if(r.msg.toLowerCase().indexOf('стакан') != -1){ numbered *= 200;}
+          state.waterCount += numbered;
+          if(state.waterCount > state.waterMax) { state.waterCount = state.waterMax; }
+          upload(url, state);
+          f = true;
+          rsp.msg = 'Вы выпили ' + numbered + ' ' + (splitted.filter(word => word.indexOf('миллилитр') != -1).length > 0 ? splitted.filter(word => word.indexOf('миллилитр') != -1)[0] : 'миллилитров') + ', так держать!';
+          yield rsp;
         }
       }
       if(splitted.filter(word => word.indexOf('обнул') != -1).length > 0){
