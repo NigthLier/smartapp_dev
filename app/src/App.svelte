@@ -148,7 +148,7 @@
     cursor: pointer;
     width: calc(40vmin);
     height: calc(40vmin);
-    border: 6px solid var(--plasma-colors-buttonAccent);
+    border: calc(0.7vmin) solid var(--plasma-colors-buttonAccent);
     background: var(--plasma-colors-buttonSecondary);
     border-radius: 50%;
     overflow: hidden;
