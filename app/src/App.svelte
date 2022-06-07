@@ -74,61 +74,34 @@
   
 </script>
 
-<body>
-<main class = "csb">
-  <button on:click={handleAddMax} class = "shadow"> + </button>
+<main>
   <h2> Count: {state.waterCount} / {state.waterMax} </h2>
-  <button on:click={handleSubMax} class = "shadow"> - </button>
+  <button on:click={handleAddWater}>Sip</button>
+  <button on:click={handleAddMax}>+</button>
+  <button on:click={handleSubMax}>-</button>
 </main>
-<main class="don">
-  <div class = "cup"> 0 </div>
-  <button on:click={handleAddWater} class = "shadow">Sip</button>
-</main>
-</body>
 
 <style>
   :global(html) {
     background: var(--plasma-colors-gradient);
   }
 
-  body {
-    display: flex;
-    flex-flow: column;
-    height: 90%;
-  }
-
   main {
-    display: flex;
-    width: calc(100% - 2em);
+    text-align: center;
     padding: 1em;
+    max-width: 240px;
     margin: 0 auto;
   }
 
-  .don {
-    flex: 1 1 auto;
-  }
-
   button {
-    display: flexbox;
     background: var(--plasma-colors-buttonAccent);
     border: none;
     color: white;
     cursor: pointer;
-    max-width: fit-content;
-    max-height: fit-content;
-    border-radius: 50%;
+    border-radius: 20px;
     padding: 20px;
   }
 
-  non { width: 120px; border: none; }
-
-  .shadow {
-    box-shadow: 0 3px 20px rgba(0,0,0,.25), inset 0 2px 0 rgba(255,255,255,.6), 0 2px 0 rgba(0,0,0,.1), inset 0 0 20px rgba(0,0,0,.1);
-  }
-  
-  .shadow:hover {
-  box-shadow: inset 0 0 20px rgba(0,0,0,.2), 0 2px 0 rgba(255,255,255,.4), inset 0 2px 0 rgba(0,0,0,.1);
-  }
 
   h1 {
     color: #14c07c;
@@ -142,21 +115,20 @@
     font-weight: 100;
   }
 
-  .csb {justify-content: space-between;}
-
   p {
     color: #f4f4f4;
   }
-  /*
+
   @media (min-width: 640px) {
     main {
       max-width: none;
     }
-  }*/
-  
+  }
   .cup{
-    vertical-align: center;
-    text-align: center;
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     width: 150px;
     height: 180px;
     border: 6px solid #fff;
