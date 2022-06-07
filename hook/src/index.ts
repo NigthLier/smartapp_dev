@@ -108,8 +108,8 @@ function* script(r: SberRequest) {
       splitted.forEach(function (value){ let n = numstring(value); if(n != NaN) { if(n === 1000) { numbered *= n; } else { numbered += n; }}})
       let f = false;
 
-      if(splitted.filter(word => word.indexOf('суточн') != -1 || word.indexOf('норм') != -1).length > 0){
-        if(splitted.filter(word => word.indexOf('увелич') != -1).length > 0 || splitted.filter(word => word.indexOf('добав') != -1).length > 0){
+      if(splitted.filter(word => word.indexOf('суточн') != -1 || word.indexOf('дневн') != -1 || word.indexOf('норм') != -1).length > 0){
+        if(splitted.filter(word => word.indexOf('увелич') != -1 || word.indexOf('добав') != -1 || word.indexOf('прибав') != -1).length > 0){
           if(numbered != 0){
             if(r.msg.toLowerCase().indexOf('стакан') != -1){ numbered *= 200;}
             state.waterMax += numbered;

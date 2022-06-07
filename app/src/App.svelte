@@ -5,11 +5,11 @@
   import {logger} from "./utils";
 
   let assistant;
-  let state = { loaded: false, waterCount: 900, waterMax: 2000, date: new Date()};
+  let state = { loaded: false, waterCount: 0, waterMax: 2000, date: new Date()};
   let token = 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJmZjAwMTI4ZGNhOWNiYWRlOTIwMWMxOTllZTFjYTM2ZTNiNjE5ZDMyMzgyNzk4NmQ4MDFmZjVhYTFiNmJhMDMwOTUzYTUiLCJhdWQiOiJWUFMiLCJleHAiOjE2NTQ3MTU5MTcsImlhdCI6MTY1NDYyOTUwNywiaXNzIjoiS0VZTUFTVEVSIiwidHlwZSI6IkJlYXJlciIsImp0aSI6ImZmOTIzMjc3LThiMzYtNGZjOC04YjdjLTRlY2MyNTcxMzlkYyIsInNpZCI6Ijk2NjgwMTEwLTc3YmUtNDNhZi04YjYwLTM0MGE5ZGY5YzhjYyJ9.Hv4JPivv1Mf10apx5cPVqb23wFSMxhIRtZiuMhBqA1vNpAXGBzML6R3c0260qkA92IUU8OJ_0kbTnHq4emNB12ir868NAIv9ohUy2xE9ELjzhhFbHqXoZXHOBV_8BFRRNfxnfx6phZOS_TjSiYvHmYhEA0Cc-l47W5AMJL1q0UAK1wP-aZlQ6m7mPIg5pTYJ2Lvv-UBwvKMLzVNBsJnDTKzYtj8wBvy8lKCSr0AsJfHqj_0GTpZFCOarD8u9GevFAU-TmApp3hG6n0C-9nknDb9gYziynJo8JScT6TBwq57kHLEcR0md0hUvdAVIirKBUGRSxkd5y-GpNHgFG-54YqzzPe1X9-WhSanIhSrz3-1ryUFsEEA-hvqjmYciXnAmOkTIRXVbvhxyCA9AesmLM3Upmgi4VudxhxrT2JJPxORwPITFJVU4dFXrDnTvUE8IG6reWUmpo_TD5sLAV9HSozNAMWLCuhM4HR4kOacmbbzY7wMzGeRQ1Ms-c1AK8ppiRnXaC16vkYi5Av_gqUZ8Zg1fhz39ERy1XOrEKkzhHstAdBovVvjc-o6Q1ILgWuwvhr506IVQtbvHCnewWFqCAH7kkWpkoxhSGpiGenuzD7bGmQHqIM9wlXhW6K0i29aqahGWzs9uUzB53ZTY3IUi5EFChMZU-qnd7A27zhSDRyM';
   let initPhrase = 'запусти Aqua venato';
 
-  let character = 'eva';
+  let character = 'sber';
   $: setTheme(character);
   onMount(() => {
     function getState() {
@@ -76,7 +76,7 @@
 
 <body>
   <main class="don">
-    <cent on:click={handleAddWater} class = "cup"> Aqua venato <cent class="wave" style="top: calc((1 - {state.waterCount} / {state.waterMax}) * 100%);"></cent> </cent>
+    <cent on:click={handleAddWater} class = "cup"> {state.waterCount} / {state.waterMax} <cent class="wave" style="top: calc((1 - {state.waterCount} / {state.waterMax}) * 100%);"></cent> </cent>
   </main>
 </body>
 
