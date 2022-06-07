@@ -76,7 +76,7 @@ function* script(r: SberRequest) {
   yield rsp;
 
   const url = 'https://smartapp-code.sberdevices.ru/tools/api/data/webdbg_userid_7n3f5ey3ni04i3io6gfld';
-  load(url).then(temp => { state.loaded = true; if (JSON.stringify(temp) != JSON.stringify({})) { if(state.date == temp.date) { state.waterCount += temp.waterCount; } state.waterMax += temp.waterMax - 2000; } upload(url, state);});
+  load(url).then(temp => { state.loaded = true; if (JSON.stringify(temp) != JSON.stringify({})) { if(state.date == temp.date) { state.waterCount += temp.waterCount; } state.waterMax += temp.waterMax - 2000; if(state.waterMax < state.waterCount){ state.waterCount = state.waterMax; } } upload(url, state);});
 
   while (true) {
     if(r.type === 'SERVER_ACTION')
