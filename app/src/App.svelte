@@ -75,17 +75,9 @@
 </script>
 
 <body>
-<main class = "csb">
-  <button on:click={handleAddMax} class = "shadow"> + </button>
-  <h2> Count: {state.waterCount} / {state.waterMax} </h2>
-  <button on:click={handleSubMax} class = "shadow"> - </button>
-</main>
-<main class="don">
-  <div class = "cup"> 0 </div>
-  <button on:click={handleAddWater} class = "shadow">Sip</button>
-</main>
-<main>
-<main>
+  <main class="don">
+    <cent on:click={handleAddWater} class = "cup"> {state.waterCount} / {state.waterMax} <cent class="wave" style="top: calc((1 - {state.waterCount} / {state.waterMax}) * 100%);"></cent> </cent>
+  </main>
 </body>
 
 <style>
@@ -107,6 +99,9 @@
   }
 
   .don {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     flex: 1 1 auto;
   }
 
@@ -122,7 +117,14 @@
     padding: 20px;
   }
 
-  non { width: 120px; border: none; }
+  cent {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--plasma-colors-accent);
+    font-weight: 100;
+    font-size: calc(5vmin);
+  }
 
   .shadow {
     box-shadow: 0 3px 20px rgba(0,0,0,.25), inset 0 2px 0 rgba(255,255,255,.6), 0 2px 0 rgba(0,0,0,.1), inset 0 0 20px rgba(0,0,0,.1);
@@ -132,59 +134,58 @@
   box-shadow: inset 0 0 20px rgba(0,0,0,.2), 0 2px 0 rgba(255,255,255,.4), inset 0 2px 0 rgba(0,0,0,.1);
   }
 
-  h1 {
-    color: #14c07c;
-    text-transform: uppercase;
-    font-size: 4em;
-    font-weight: 100;
-  }
-
-  h2 {
-    color: #14c07c;
-    font-weight: 100;
-  }
-
-  .csb {justify-content: space-between;}
-
-  p {
-    color: #f4f4f4;
-  }
-  /*
   @media (min-width: 640px) {
     main {
       max-width: none;
     }
-  }*/
+  }
   
   .cup{
-    vertical-align: center;
-    text-align: center;
-    width: 150px;
-    height: 180px;
-    border: 6px solid #fff;
-    border-radius: 15px;
-    border-top-left-radius: 5px;
-    border-top-right-radius: 5px;
+    justify-content: center;
+    align-items: center;
+    align-self: center;
+    justify-self: center;
+    cursor: pointer;
+    width: calc(40vmin);
+    height: calc(40vmin);
+    border: 6px solid var(--plasma-colors-buttonAccent);
+    background: var(--plasma-colors-buttonSecondary);
+    border-radius: 50%;
     overflow: hidden;
     transform: scale(2);
-    box-shadow: 0 0 0 6px #fff 0 20px 35px rgba(0, 0, 0, .5) ;
+    box-shadow: inset 0 0 calc(5vmin) rgba(0,0,0,.5);
+    animation: hov 2.5s linear infinite;
   }
+
+  .cup:hover{
+    animation: none;
+  }
+
+  .cup:active{
+    transition-duration: .2s;
+    box-shadow: inset 0 0 calc(5vmin) var(--plasma-colors-buttonFocused);
+  }
+  
   .wave{
-    width: 300px;
-    height: 300px;
+    width: calc(80vmin);
+    height: calc(80vmin);
     position: absolute;
-    left: -10%;
-    bottom: -140%;
     background: var(--plasma-colors-gradientDevice);
     border-radius:  33%;
     transition: all 1.4s linear;
-    animation: waves 2.4s linear infinite;
+    animation: waves 5s linear infinite;
   }
+
+  @keyframes hov{
+    0%{}
+    50%{ transform: scale(1.95); }
+    100%{}
+  }
+
   @keyframes waves{
     0%{
       transform: rotate(0);
       border-radius: 30%;
-      bottom: -170px;
     }
     45%{
       border-radius: 39%;
@@ -192,7 +193,6 @@
     100%{
       transform: rotate(360deg);
       border-radius: 30%;
-      bottom: -80px;
     }
   }
 </style>
