@@ -84,6 +84,8 @@
   <div class = "cup"> 0 </div>
   <button on:click={handleAddWater} class = "shadow">Sip</button>
 </main>
+<main>
+<main>
 </body>
 
 <style>
@@ -94,7 +96,7 @@
   body {
     display: flex;
     flex-flow: column;
-    height: 90%;
+    height: 100%;
   }
 
   main {
