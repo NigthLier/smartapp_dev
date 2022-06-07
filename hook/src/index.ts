@@ -125,6 +125,7 @@ function* script(r: SberRequest) {
             if(r.msg.toLowerCase().indexOf('стакан') != -1){ numbered *= 200;}
             state.waterMax -= numbered;
             if(state.waterMax < 200){ state.waterMax = 200; }
+            if(state.waterMax < state.waterCount){ state.waterCount = state.waterMax; }
             upload(url, state);
             f = true;
             rsp.msg = 'Суточная норма уменьшена на ' + numbered + ' ' + (splitted.filter(word => word.indexOf('миллилитр') != -1).length > 0 ? splitted.filter(word => word.indexOf('миллилитр') != -1)[0] : 'миллилитров');
@@ -137,6 +138,7 @@ function* script(r: SberRequest) {
             state.waterMax = numbered;
             if(state.waterMax < 200){ state.waterMax = 200; }
             if(state.waterMax > 4000) { state.waterMax = 4000; }
+            if(state.waterMax < state.waterCount){ state.waterCount = state.waterMax; }
             upload(url, state);
             f = true;
             rsp.msg = 'Установлена суточная норма в ' + numbered + ' ' + (splitted.filter(word => word.indexOf('миллилитр') != -1).length > 0 ? splitted.filter(word => word.indexOf('миллилитр') != -1)[0] : 'миллилитров');
