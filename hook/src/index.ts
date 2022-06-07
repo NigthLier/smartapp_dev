@@ -120,7 +120,7 @@ function* script(r: SberRequest) {
             yield rsp;
           }
         }
-        if(splitted.filter(word => word.indexOf('уменьш') != -1).length > 0 || splitted.filter(word => word.indexOf('отн') != -1).length > 0){
+        if(splitted.filter(word => word.indexOf('уменьш') != -1 || word.indexOf('отн') != -1).length > 0){
           if(numbered != 0){
             if(r.msg.toLowerCase().indexOf('стакан') != -1){ numbered *= 200;}
             state.waterMax -= numbered;
@@ -132,7 +132,7 @@ function* script(r: SberRequest) {
             yield rsp;
           }
         }
-        if(splitted.filter(word => word.indexOf('устан') != -1).length > 0 || splitted.filter(word => word.indexOf('пост') != -1).length > 0){
+        if(splitted.filter(word => word.indexOf('устан') != -1 || word.indexOf('пост') != -1).length > 0){
           if(numbered != 0){
             if(r.msg.toLowerCase().indexOf('стакан') != -1){ numbered *= 200;}
             state.waterMax = numbered;
@@ -163,6 +163,10 @@ function* script(r: SberRequest) {
         upload(url, state);
         f = true;
         rsp.msg = 'Обнулено';
+        yield rsp;
+      }
+      if(splitted.filter(word => word.indexOf('справк') != -1 || word.indexOf('помо') != -1 || word.indexOf('инф') != -1).length > 0){
+        rsp.msg = 'Это вики';
         yield rsp;
       }
       if(!f){
