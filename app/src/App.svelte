@@ -5,8 +5,8 @@
   import {logger} from "./utils";
 
   let assistant;
-  let state = { loaded: false, waterCount: 0, waterMax: 2000, date: new Date()};
-  let token = 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJmZjAwMTI4ZGNhOWNiYWRlOTIwMWMxOTllZTFjYTM2ZTNiNjE5ZDMyMzgyNzk4NmQ4MDFmZjVhYTFiNmJhMDMwOTUzYTUiLCJhdWQiOiJWUFMiLCJleHAiOjE2NTQ3MTU5MTcsImlhdCI6MTY1NDYyOTUwNywiaXNzIjoiS0VZTUFTVEVSIiwidHlwZSI6IkJlYXJlciIsImp0aSI6ImZmOTIzMjc3LThiMzYtNGZjOC04YjdjLTRlY2MyNTcxMzlkYyIsInNpZCI6Ijk2NjgwMTEwLTc3YmUtNDNhZi04YjYwLTM0MGE5ZGY5YzhjYyJ9.Hv4JPivv1Mf10apx5cPVqb23wFSMxhIRtZiuMhBqA1vNpAXGBzML6R3c0260qkA92IUU8OJ_0kbTnHq4emNB12ir868NAIv9ohUy2xE9ELjzhhFbHqXoZXHOBV_8BFRRNfxnfx6phZOS_TjSiYvHmYhEA0Cc-l47W5AMJL1q0UAK1wP-aZlQ6m7mPIg5pTYJ2Lvv-UBwvKMLzVNBsJnDTKzYtj8wBvy8lKCSr0AsJfHqj_0GTpZFCOarD8u9GevFAU-TmApp3hG6n0C-9nknDb9gYziynJo8JScT6TBwq57kHLEcR0md0hUvdAVIirKBUGRSxkd5y-GpNHgFG-54YqzzPe1X9-WhSanIhSrz3-1ryUFsEEA-hvqjmYciXnAmOkTIRXVbvhxyCA9AesmLM3Upmgi4VudxhxrT2JJPxORwPITFJVU4dFXrDnTvUE8IG6reWUmpo_TD5sLAV9HSozNAMWLCuhM4HR4kOacmbbzY7wMzGeRQ1Ms-c1AK8ppiRnXaC16vkYi5Av_gqUZ8Zg1fhz39ERy1XOrEKkzhHstAdBovVvjc-o6Q1ILgWuwvhr506IVQtbvHCnewWFqCAH7kkWpkoxhSGpiGenuzD7bGmQHqIM9wlXhW6K0i29aqahGWzs9uUzB53ZTY3IUi5EFChMZU-qnd7A27zhSDRyM';
+  let state = { loaded: false, waterCount: 0, waterMax: 2000, date: new Date(), vis: "visible"};
+  let token = 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJmZjAwMTI4ZGNhOWNiYWRlOTIwMWMxOTllZTFjYTM2ZTNiNjE5ZDMyMzgyNzk4NmQ4MDFmZjVhYTFiNmJhMDMwOTUzYTUiLCJhdWQiOiJWUFMiLCJleHAiOjE2NTQ4OTI4ODEsImlhdCI6MTY1NDgwNjQ3MSwiaXNzIjoiS0VZTUFTVEVSIiwidHlwZSI6IkJlYXJlciIsImp0aSI6Ijk0ZmU5OGNhLTFiNWUtNDE4ZC04OTZmLTQxMGFhY2Y1OWE1ZiIsInNpZCI6IjNhYTU0MjlkLTM4YjUtNGM5NS1iZjQ4LThmYThlM2MyZDdkMiJ9.izvezyB_YeK6PGVkrsJm44VIi2b17_T0SMm2SeE8Lf8n1gLQlAlRro2lzGs68zrsxSvpg9bbsjg3HDsbGiqc-ef3s9JmJz__khOJxDA4fDKCwabVqlZjzdIMSAGbEYIpQsHGz2ytYq_rq08gViZ8nPzhYMClFCHoFOnBuE6pit20FSsXRsr1vBFYMhueBUU83PIfBN-cc8Oj4kuUtBThDNm3hpNHCjEpYaEiOK4lYzl9VmHka7yJEODgC1FbfUV2B81dfqOrnHk1KEdipySuaX8xIGzvKjKP1lLrCfS68Iutim6e_tTL1CC4WotQVgQOHTGVXxJn53ifOdWqwRTfICzEaj1X2AFUIfsZMzd2R8fUZZ0wvRqLpt_lImww0DJN0-dzFwAV1UtSyTQM0oDMlGUCty6NWuhvoHG-uWjGJOvlmBkWqmnrSR_1AJIZAqGr2TPh2Jmx2rPB6N1f-za53suu5aDX4GrqJnIegLuyS_lf8_3KhKQetf1ep0V4fd5OsiCTzapsfhgmte2Bnj9Mq2yCddmCzKD5XXaOSy9s-m3ExFotL4tXUHVMKdSmbk9cVHpJ_BgxJDSXFYTXuCMXSgZ4xS6zCPeW73sTFNT6eAvr3YvEJ40gmJG3x54mledcQAzGhN5cxV3mA_w9xpnXrUBR8KOuZXQ9jFd07cPjHgw';
   let initPhrase = 'запусти Aqua venato';
 
   let character = 'sber';
@@ -71,12 +71,39 @@
       }
     })
   }
+  function handleZero() {
+    assistant.sendData({
+      action: {
+        action_id: 'Zero',
+        data: {}
+      }
+    })
+  }
+  
+  function handleHelp() {
+    assistant.sendData({
+      action: {
+        action_id: 'Help',
+        data: {}
+      }
+    })
+  }
   
 </script>
 
 <body>
-  <main class="don">
-    <cent on:click={handleAddWater} class = "cup"> {state.waterCount} / {state.waterMax} <cent class="wave" style="top: calc((1 - {state.waterCount} / {state.waterMax}) * 100%);"></cent> </cent>
+  <main class="cor">
+    <main class="res" style="visibility: {state.vis};">
+      <cent on:click={handleAddMax} class = "buttoncup"><span style = "transform: translate(0%, -8%)">+</span></cent>
+      <cent on:click={handleSubMax} class = "buttoncup"><span style = "transform: translate(0%, -8%)">-</span></cent>
+    </main>
+    <main class="don">
+      <cent on:click={handleAddWater} class = "cup"> {state.waterCount} / {state.waterMax} <cent class="wave" style="top: calc((1 - {state.waterCount} / {state.waterMax}) * 100%);"></cent> </cent>
+    </main>
+    <main class="res" style="visibility: {state.vis};">
+      <cent on:click={handleZero} class = "buttoncup" ><span style = "transform: translate(0%, -5%)">0</span></cent>
+      <cent on:click={handleHelp} class = "buttoncup" ><span style = "transform: translate(0%, -5%)">?</span></cent>
+    </main>
   </main>
 </body>
 
@@ -93,7 +120,6 @@
 
   main {
     display: flex;
-    width: calc(100% - 2em);
     padding: 1em;
     margin: 0 auto;
   }
@@ -102,6 +128,21 @@
     display: flex;
     justify-content: center;
     align-items: center;
+  }
+
+  .res {
+    display: flex;
+    flex-wrap: wrap;
+    flex-flow: column;
+    width: 10%;
+    justify-content: space-around;
+  }
+
+  .cor {
+    display: flex;
+    flex-flow: row;
+    justify-content:space-around;
+    width: calc(100% - 2em);
     flex: 1 1 auto;
   }
 
@@ -131,15 +172,30 @@
   }
   
   .shadow:hover {
-  box-shadow: inset 0 0 20px rgba(0,0,0,.2), 0 2px 0 rgba(255,255,255,.4), inset 0 2px 0 rgba(0,0,0,.1);
+    box-shadow: inset 0 0 20px rgba(0,0,0,.2), 0 2px 0 rgba(255,255,255,.4), inset 0 2px 0 rgba(0,0,0,.1);
   }
 
-  @media (min-width: 640px) {
-    main {
-      max-width: none;
-    }
+  .buttoncup{
+    justify-content: center;
+    align-items: center;
+    align-self: center;
+    justify-self: center;
+    cursor: pointer;
+    width: calc(5vmin);
+    height: calc(5vmin);
+    border: calc(0.1vmin) solid var(--plasma-colors-buttonAccent);
+    background: var(--plasma-colors-buttonSecondary);
+    border-radius: 50%;
+    overflow: hidden;
+    transform: scale(2);
+    box-shadow: inset 0 0 calc(1vmin) rgba(0,0,0,.5);
   }
-  
+
+  .buttoncup:active{
+    transition-duration: .2s;
+    box-shadow: inset 0 0 calc(1vmin) var(--plasma-colors-buttonFocused);
+  }
+
   .cup{
     justify-content: center;
     align-items: center;
@@ -193,6 +249,12 @@
     100%{
       transform: rotate(360deg);
       border-radius: 30%;
+    }
+  }
+
+  @media (min-width: 640px) {
+    main {
+      max-width: none;
     }
   }
 </style>

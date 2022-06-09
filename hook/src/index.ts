@@ -1,12 +1,4 @@
 import { Dialute, SberRequest } from 'dialute';
-import axios from 'axios';
-
-async function load(a: string){
-  return await axios.get(a).then(resp => {return resp.data;});
-}
-async function upload(a: string, b: any){
-  if(b.loaded) await axios.post(a, b);
-}
 
 function numstring(a: string){
   if(a.indexOf('тысяч') != -1 || a.indexOf('тыщ') != -1 || a === 'литр' || a === 'литра' || a === 'литров')
@@ -68,117 +60,147 @@ function numstring(a: string){
   return 0;
 }
 
+function mil(a: number){
+  if(a % 10 == 1)
+    return " миллилитр";
+  else if(a % 10 == 2 || a % 10 == 3 || a % 10 == 4)
+      return " миллилитрa";
+  else
+    return " миллилитров";
+}
+
+function vi_1(a: string){
+  if(a == "sber")
+    return "Возможно, вы хотели изменить суточную норму, но я не понял вас. Попробуйте ещё раз или попросите справку.";
+  if(a == "eva")
+    return "Возможно, вы хотели изменить суточную норму, но я не поняла вас. Попробуйте ещё раз или попросите справку.";
+  if(a == "joy")
+    return "Возможно, ты хотел изменить суточную норму, но я не поняла тебя. Попробуй ещё раз или попроси справку.";
+}
+
+function vi_2(a: string){
+  if(a == "sber")
+    return "Возможно, вы хотели изменить суточную норму, но я не понял вас. Попробуйте ещё раз или попросите справку.";
+  if(a == "eva")
+    return "Возможно, вы хотели изменить суточную норму, но я не поняла вас. Попробуйте ещё раз или попросите справку.";
+  if(a == "joy")
+    return "Возможно, ты хотел изменить суточную норму, но я не поняла тебя. Попробуй ещё раз или попроси справку.";
+}
+
+function vi_3(a: string){
+  if(a == "sber")
+    return "Я не понимаю, что вы хотите сказать. Попробуйте ещё раз или попросите справку.";
+  if(a == "eva")
+    return "Я не понимаю, что вы хотите сказать. Попробуйте ещё раз или попросите справку.";
+  if(a == "joy")
+    return "Я не понимаю, что ты хочешь сказать. Попробуй ещё раз или попроси справку.";
+}
+
+function vi_help(){
+  return 'Справка: Данное приложение позволяет отслеживать количество выпитой воды. Чтобы увеличить значение счетчика нажмите на центр экрана или произнесите: "Я выпил(а) столько-то". Чтобы изменить максимум нажимайте на кнопки + и - или произнесите: "Увеличить/Уменьшить/Установить суточную норму на столько-то". Для возврата к начальным значениям нажмите на кнопку 0 или произнесите: "Обнулить значения". Чтобы вызвать спраку нажмите на кнопку ? или скажите "Информация". Чтобы переключить интерфейс скажите "Показать/Спрятать кнопки".';
+}
+
 function* script(r: SberRequest) {
   const rsp = r.buildRsp();
-  const state = { loaded: false, waterCount: 0, waterMax: 2000, date: new Date().toLocaleString().substr(0,10)};
+  const state = { loaded: false, waterCount: 0, waterMax: 2000, date: new Date().toLocaleString().substr(0,10), vis: "visible"};
   rsp.data = state;
   rsp.msg = 'Здравствуй';
   yield rsp;
 
-  const url = 'https://smartapp-code.sberdevices.ru/tools/api/data/' + r.userId;
-  //load(url).then(temp => { state.loaded = true; if (JSON.stringify(temp) != JSON.stringify({})) { if(state.date == temp.date) { state.waterCount += temp.waterCount; } state.waterMax += temp.waterMax - 2000; if(state.waterMax < 200){ state.waterMax = 200; } if(state.waterMax > 4000) { state.waterMax = 4000; } if(state.waterMax < state.waterCount) { state.waterCount = state.waterMax; } } upload(url, state);});
-
   while (true) {
     if(r.type === 'SERVER_ACTION')
     {
-      let f = false;
       if (r.act?.action_id === 'AddWater') {
         state.waterCount += 200;
         if(state.waterCount > state.waterMax) { state.waterCount = state.waterMax; }
-        upload(url, state);
-        f = true;
-        rsp.msg = 'Вы выпили 200 миллилитров, так держать!';
+        rsp.msg = 'Выпито 200 миллилитров, так держать!';
         yield rsp;
       }
       if (r.act?.action_id === 'AddMax') {
         state.waterMax += 200;
         if(state.waterMax > 4000) { state.waterMax = 4000; }
-        upload(url, state);
-        f = true;
-        rsp.msg = 'Суточная норма увеличена на 200 миллилитров';
+        rsp.msg = 'Установлена суточная норма в  ' + state.waterMax + mil(state.waterMax);
         yield rsp;
       }
       if (r.act?.action_id === 'SubMax') {
         state.waterMax -= 200;
         if(state.waterMax < 200){ state.waterMax = 200; }
-        upload(url, state);
-        f = true;
-        rsp.msg = 'Суточная норма уменьшена на 200 миллилитров';
+        rsp.msg = 'Установлена суточная норма в  ' + state.waterMax + mil(state.waterMax);
         yield rsp;
       }
-      if(!f){
-        rsp.msg = 'Я вас не понимаю';
+      if (r.act?.action_id === 'Zero') {
+        state.waterCount = 0;
+        state.waterMax = 2000;
+        rsp.msg = 'Значения обнулены';
         yield rsp;
       }
-    } else {
+      if (r.act?.action_id === 'Help') {
+        rsp.msg = vi_help();
+        yield rsp;
+      }
+    } 
+    else {
       var splitted = r.msg.toLowerCase().split(" ");
       var numbered = 0;
       splitted.forEach(function (value){ let n = numstring(value); if(n != NaN) { if(n === 1000) { numbered *= n; } else { numbered += n; }}})
-      let f = false;
 
       if(splitted.filter(word => word.indexOf('суточн') != -1 || word.indexOf('дневн') != -1 || word.indexOf('норм') != -1).length > 0){
-        if(splitted.filter(word => word.indexOf('увелич') != -1 || word.indexOf('добав') != -1 || word.indexOf('прибав') != -1).length > 0){
-          if(numbered != 0){
-            if(r.msg.toLowerCase().indexOf('стакан') != -1){ numbered *= 200;}
+        rsp.msg =  vi_1(r.charName);
+        if(numbered != 0){
+          if(r.msg.toLowerCase().indexOf('стакан') != -1) {  numbered *= 200; }
+          if(splitted.filter(word => word.indexOf('увелич') != -1 || word.indexOf('добав') != -1 || word.indexOf('прибав') != -1).length > 0) {
             state.waterMax += numbered;
             if(state.waterMax > 4000) { state.waterMax = 4000; }
-            upload(url, state);
-            f = true;
-            rsp.msg = 'Суточная норма увеличена на ' + numbered + ' ' + (splitted.filter(word => word.indexOf('миллилитр') != -1).length > 0 ? splitted.filter(word => word.indexOf('миллилитр') != -1)[0] : 'миллилитров');
-            yield rsp;
+            rsp.msg = 'Установлена суточная норма в  ' + state.waterMax + mil(state.waterMax);
           }
-        }
-        if(splitted.filter(word => word.indexOf('уменьш') != -1 || word.indexOf('отн') != -1).length > 0){
-          if(numbered != 0){
-            if(r.msg.toLowerCase().indexOf('стакан') != -1){ numbered *= 200;}
+          if(splitted.filter(word => word.indexOf('уменьш') != -1 || word.indexOf('отн') != -1).length > 0) {
             state.waterMax -= numbered;
             if(state.waterMax < 200){ state.waterMax = 200; }
             if(state.waterMax < state.waterCount){ state.waterCount = state.waterMax; }
-            upload(url, state);
-            f = true;
-            rsp.msg = 'Суточная норма уменьшена на ' + numbered + ' ' + (splitted.filter(word => word.indexOf('миллилитр') != -1).length > 0 ? splitted.filter(word => word.indexOf('миллилитр') != -1)[0] : 'миллилитров');
-            yield rsp;
+            rsp.msg = 'Установлена суточная норма в  ' + state.waterMax + mil(state.waterMax);
           }
-        }
-        if(splitted.filter(word => word.indexOf('устан') != -1 || word.indexOf('пост') != -1).length > 0){
-          if(numbered != 0){
-            if(r.msg.toLowerCase().indexOf('стакан') != -1){ numbered *= 200;}
+          if(splitted.filter(word => word.indexOf('устан') != -1 || word.indexOf('пост') != -1).length > 0) {
             state.waterMax = numbered;
-            if(state.waterMax < 200){ state.waterMax = 200; }
+            if(state.waterMax < 200) { state.waterMax = 200; }
             if(state.waterMax > 4000) { state.waterMax = 4000; }
-            if(state.waterMax < state.waterCount){ state.waterCount = state.waterMax; }
-            upload(url, state);
-            f = true;
-            rsp.msg = 'Установлена суточная норма в ' + numbered + ' ' + (splitted.filter(word => word.indexOf('миллилитр') != -1).length > 0 ? splitted.filter(word => word.indexOf('миллилитр') != -1)[0] : 'миллилитров');
-            yield rsp;
+            if(state.waterMax < state.waterCount) { state.waterCount = state.waterMax; }
+            rsp.msg = 'Установлена суточная норма в  ' + state.waterMax + mil(state.waterMax);
           }
         }
+        yield rsp;
       }
-      if(splitted.filter(word => word.indexOf('пил') != -1 || word.indexOf('пью') != -1).length > 0){
+      else if(splitted.filter(word => word.indexOf('пил') != -1 || word.indexOf('пью') != -1).length > 0) {
+        rsp.msg =  vi_2(r.charName);
         if(numbered != 0){
           if(r.msg.toLowerCase().indexOf('стакан') != -1){ numbered *= 200;}
           state.waterCount += numbered;
           if(state.waterCount > state.waterMax) { state.waterCount = state.waterMax; }
-          upload(url, state);
-          f = true;
-          rsp.msg = 'Вы выпили ' + numbered + ' ' + (splitted.filter(word => word.indexOf('миллилитр') != -1).length > 0 ? splitted.filter(word => word.indexOf('миллилитр') != -1)[0] : 'миллилитров') + ', так держать!';
-          yield rsp;
+          rsp.msg = 'Выпито ' + numbered + mil(numbered) + ', так держать!';
         }
+        yield rsp;
       }
-      if(splitted.filter(word => word.indexOf('обнул') != -1).length > 0){
+      else if(splitted.filter(word => word.indexOf('обнул') != -1).length > 0){
         state.waterCount = 0;
         state.waterMax = 2000;
-        upload(url, state);
-        f = true;
-        rsp.msg = 'Обнулено';
+        rsp.msg = 'Значения обнулены';
         yield rsp;
       }
-      if(splitted.filter(word => word.indexOf('справк') != -1 || word.indexOf('помо') != -1 || word.indexOf('инф') != -1 || word.indexOf('help') != -1).length > 0){
-        rsp.msg = 'Вас приветствует информаторий. Данное приложение в качестве основного использует голосовой ввод. Если вы выпили какое-то количество воды и хотите занести эту информацию в приложение, скажите: "Я выпил/выпила столько-то миллилитров" или нажмите на центр экрана, что добавит вам 200 миллилитров к счетчику. Если вы хотите изменить суточную норму, то произнесите фразу, содержащую стовосочетание суточная норма + увеличить/уменьшить/установить на столько-то миллилитров. Вы можете вернуться к начальному значению про помощи ключ-слова "обнулить". Для доступа в информаторий скажите: "помощь"';
+      else if(splitted.filter(word => word.indexOf('справк') != -1 || word.indexOf('помо') != -1 || word.indexOf('инф') != -1 || word.indexOf('help') != -1).length > 0){
+        rsp.msg = rsp.msg = vi_help();;
+        yield rsp;
+      } 
+      else if(splitted.filter(word => word.indexOf('показ') != -1).length > 0){
+        state.vis = 'visible';
+        rsp.msg = 'Кнопки показаны';
         yield rsp;
       }
-      if(!f){
-        rsp.msg = 'Я вас не понимаю';
+      else if(splitted.filter(word => word.indexOf('прят') != -1).length > 0){
+        state.vis = 'hidden';
+        rsp.msg = 'Кнопки спрятаны';
+        yield rsp;
+      }
+      else {
+        rsp.msg = vi_3(r.charName);
         yield rsp;
       }
     }
