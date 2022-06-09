@@ -200,7 +200,7 @@ function* script(r: SberRequest) {
         yield rsp;
       }
       else {
-        rsp.msg = vi_3(r.charName);
+        rsp.msg = r.charName;
         yield rsp;
       }
     }
