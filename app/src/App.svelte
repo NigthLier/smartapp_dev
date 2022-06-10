@@ -305,7 +305,7 @@
     }
     .up{ 
       outline: none;
-      transform: translate(0%, -3%);
+      transform: translate(0%, -1%);
     }
   }
 </style>
