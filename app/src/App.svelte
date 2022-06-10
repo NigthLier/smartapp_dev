@@ -26,6 +26,7 @@
         getState,
       });
     };
+    
     assistant = init();
 
     assistant.on('start', () => {
@@ -79,7 +80,6 @@
       }
     })
   }
-  
   function handleHelp() {
     assistant.sendData({
       action: {
