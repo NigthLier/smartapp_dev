@@ -109,12 +109,19 @@ function vi_help(a: number){
     return 'Чтобы переключить интерфейс скажите "Показать/Спрятать кнопки"';
 }
 
+function vi_hello(a: string){
+  if(a == "Сбер")
+    return "Здравствуйте";
+  if(a == "Афина")
+    return "Здравствуйте";
+  if(a == "Джой")
+    return "Привет";
+}
+
 function* script(r: SberRequest) {
   const rsp = r.buildRsp();
   const state = { loaded: false, waterCount: 0, waterMax: 2000, date: new Date().toLocaleString().substr(0,10), vis: "visible"};
   rsp.data = state;
-  rsp.msg = 'Здравствуй';
-  yield rsp;
   
   while (true) {
     if(r.type === 'SERVER_ACTION')
@@ -208,13 +215,17 @@ function* script(r: SberRequest) {
         yield rsp;
       }
       else if(splitted.filter(word => word.indexOf('показ') != -1 || word.indexOf('покаж') != -1).length > 0){
-        state.vis = 'none';
+        state.vis = 'visible';
         rsp.msg = 'Кнопки показаны';
         yield rsp;
       }
       else if(splitted.filter(word => word.indexOf('прят') != -1 || word.indexOf('пряч') != -1).length > 0){
-        state.vis = 'hide1';
+        state.vis = 'hidden';
         rsp.msg = 'Кнопки спрятаны';
+        yield rsp;
+      }
+      else if(splitted.filter(word => word.indexOf('aqua venato') != -1 || word.indexOf('трекер воды') != -1 || word.indexOf('счетчик воды') != -1).length > 0) {
+        rsp.msg = vi_hello(r.charName);
         yield rsp;
       }
       else {
