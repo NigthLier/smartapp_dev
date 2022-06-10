@@ -96,8 +96,17 @@ function vi_3(a: string){
     return "Я не понимаю, что ты хочешь сказать. Попробуй ещё раз или попроси справку.";
 }
 
-function vi_help(){
-  return 'Справка: Данное приложение позволяет отслеживать количество выпитой воды. Чтобы увеличить значение счетчика нажмите на центр экрана или произнесите: "Я выпил(а) столько-то". Чтобы изменить максимум нажимайте на кнопки + и - или произнесите: "Увеличить/Уменьшить/Установить суточную норму на столько-то". Для возврата к начальным значениям нажмите на кнопку 0 или произнесите: "Обнулить значения". Чтобы вызвать спраку нажмите на кнопку ? или скажите "Информация". Чтобы переключить интерфейс скажите "Показать/Спрятать кнопки".';
+function vi_help(a: number){
+  if(a == 0)
+    return 'Справка: Данное приложение позволяет отслеживать количество выпитой воды. Чтобы увеличить значение счетчика нажмите на центр экрана или произнесите: "Я выпил/выпила столько-то". Чтобы изменить максимум нажмите на кнопки плюс и минус или произнесите: "Увеличить/Уменьшить/Установить суточную норму на столько-то". Для возврата к начальным значениям нажмите на кнопку 0 или произнесите: "Обнулить значения". Чтобы вызвать спраку нажмите на кнопку вопрос или скажите "Информация". Чтобы переключить интерфейс скажите "Показать/Спрятать кнопки".';
+  if(a == 1)
+    return 'Чтобы изменить максимум нажмите на кнопки плюс и минус или произнесите: "Увеличить/Уменьшить/Установить суточную норму на столько-то"';
+  if(a == 2)
+    return 'Чтобы увеличить значение счетчика нажмите на центр экрана или произнесите: "Я выпил/выпила столько-то"';
+  if(a == 3)
+    return 'Для возврата к начальным значениям нажмите на кнопку 0 или произнесите: "Обнулить значения"';
+  if(a == 4)
+    return 'Чтобы переключить интерфейс скажите "Показать/Спрятать кнопки"';
 }
 
 function* script(r: SberRequest) {
@@ -135,7 +144,7 @@ function* script(r: SberRequest) {
         yield rsp;
       }
       if (r.act?.action_id === 'Help') {
-        rsp.msg = vi_help();
+        rsp.msg = vi_help(0);
         yield rsp;
       }
     } 
@@ -144,7 +153,20 @@ function* script(r: SberRequest) {
       var numbered = 0;
       splitted.forEach(function (value){ let n = numstring(value); if(n != NaN) { if(n === 1000) { numbered *= n; } else { numbered += n; }}})
 
-      if(splitted.filter(word => word.indexOf('суточн') != -1 || word.indexOf('дневн') != -1 || word.indexOf('норм') != -1).length > 0){
+      if(splitted.filter(word => word.indexOf('справк') != -1 || word.indexOf('помо') != -1 || word.indexOf('инф') != -1 || word.indexOf('help') != -1 || word.indexOf('как') != -1 ).length > 0){
+        if(splitted.filter(word => word.indexOf('суточн') != -1 || word.indexOf('дневн') != -1 || word.indexOf('норм') != -1).length > 0)
+          rsp.msg = vi_help(1);
+        else if(splitted.filter(word => word.indexOf('пил') != -1 || word.indexOf('пью') != -1).length > 0)
+          rsp.msg = vi_help(2);
+        else if(splitted.filter(word => word.indexOf('обнул') != -1).length > 0)
+          rsp.msg = vi_help(3);
+        else if(splitted.filter(word => word.indexOf('показ') != -1 || word.indexOf('покаж') != -1 || word.indexOf('прят') != -1 || word.indexOf('пряч') != -1).length > 0)
+          rsp.msg = vi_help(4);
+        else
+          rsp.msg = vi_help(0);
+        yield rsp;
+      } 
+      else if(splitted.filter(word => word.indexOf('суточн') != -1 || word.indexOf('дневн') != -1 || word.indexOf('норм') != -1).length > 0){
         rsp.msg =  vi_1(r.charName);
         if(numbered != 0){
           if(r.msg.toLowerCase().indexOf('стакан') != -1) {  numbered *= 200; }
@@ -185,17 +207,13 @@ function* script(r: SberRequest) {
         rsp.msg = 'Значения обнулены';
         yield rsp;
       }
-      else if(splitted.filter(word => word.indexOf('справк') != -1 || word.indexOf('помо') != -1 || word.indexOf('инф') != -1 || word.indexOf('help') != -1).length > 0){
-        rsp.msg = rsp.msg = vi_help();;
-        yield rsp;
-      } 
-      else if(splitted.filter(word => word.indexOf('показ') != -1).length > 0){
-        state.vis = 'visible';
+      else if(splitted.filter(word => word.indexOf('показ') != -1 || word.indexOf('покаж') != -1).length > 0){
+        state.vis = 'none';
         rsp.msg = 'Кнопки показаны';
         yield rsp;
       }
-      else if(splitted.filter(word => word.indexOf('прят') != -1).length > 0){
-        state.vis = 'hidden';
+      else if(splitted.filter(word => word.indexOf('прят') != -1 || word.indexOf('пряч') != -1).length > 0){
+        state.vis = 'hide1';
         rsp.msg = 'Кнопки спрятаны';
         yield rsp;
       }

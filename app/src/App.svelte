@@ -94,15 +94,15 @@
 <body>
   <main class="cor">
     <main class="res" style="visibility: {state.vis};">
-      <cent on:click={handleAddMax} class = "buttoncup"><span style = "transform: translate(0%, -8%)">+</span></cent>
-      <cent on:click={handleSubMax} class = "buttoncup"><span style = "transform: translate(0%, -8%)">-</span></cent>
+      <cent class = "h1"><cent on:click={handleAddMax} class = "buttoncup"><span style = "transform: translate(0%, -8%)">+</span></cent></cent>
+      <cent class = "h2"><cent on:click={handleSubMax} class = "buttoncup"><span style = "transform: translate(0%, -8%)">-</span></cent></cent>
     </main>
     <main class="don">
       <cent on:click={handleAddWater} class = "cup"> {state.waterCount} / {state.waterMax} <cent class="wave" style="top: calc((1 - {state.waterCount} / {state.waterMax}) * 100%);"></cent> </cent>
     </main>
     <main class="res" style="visibility: {state.vis};">
-      <cent on:click={handleZero} class = "buttoncup" ><span style = "transform: translate(0%, -5%)">0</span></cent>
-      <cent on:click={handleHelp} class = "buttoncup" ><span style = "transform: translate(0%, -5%)">?</span></cent>
+      <cent class = "h3"><cent on:click={handleZero} class = "buttoncup" ><span style = "transform: translate(0%, -5%)">0</span></cent></cent>
+      <cent class = "h4"><cent on:click={handleHelp} class = "buttoncup" ><span style = "transform: translate(0%, -5%)">?</span></cent></cent>
     </main>
   </main>
 </body>
@@ -194,6 +194,23 @@
   .buttoncup:active{
     transition-duration: .2s;
     box-shadow: inset 0 0 calc(1vmin) var(--plasma-colors-buttonFocused);
+  }
+
+  .h1:hover{
+    transition-duration: .2s;
+    transform: translate(-5%, -5%);
+  }
+  .h2:hover{
+    transition-duration: .2s;
+    transform: translate(-5%, +5%);
+  }
+  .h3:hover{
+    transition-duration: .2s;
+    transform: translate(+5%, -5%);
+  }
+  .h4:hover{
+    transition-duration: .2s;
+    transform: translate(+5%, +5%);
   }
 
   .cup{
