@@ -195,11 +195,11 @@ function* script(r: SberRequest) {
           rsp.msg = vi_help(r.charName, 4);
         else
           rsp.msg = vi_help(r.charName, 0);
-          state.err = 0;
+        state.err = 0;
         yield rsp;
       } 
       else if(splitted.filter(word => word.indexOf('суточн') != -1 || word.indexOf('дневн') != -1 || word.indexOf('норм') != -1).length > 0){
-        if(state.err > 2){
+        if(state.err > 1){
           rsp.msg =  vi_1(r.charName);
           state.err = 0;
         }
@@ -234,7 +234,7 @@ function* script(r: SberRequest) {
         yield rsp;
       }
       else if(splitted.filter(word => word.indexOf('пил') != -1 || word.indexOf('пью') != -1 || word.indexOf('пить') != -1).length > 0) {
-        if(state.err > 2){
+        if(state.err > 1){
           rsp.msg =  vi_2(r.charName);
           state.err = 0;
         }
@@ -279,7 +279,7 @@ function* script(r: SberRequest) {
         state.err = 0;
       }
       else {
-        if(state.err > 2){
+        if(state.err > 1){
           rsp.msg = vi_3(r.charName);
           state.err = 0;
         } 
