@@ -275,7 +275,7 @@ function* script(r: SberRequest) {
         state.err = 0;
         yield rsp;
       }
-      else if(splitted.filter(word => word.indexOf('стоп') != -1 || word.indexOf('хватит') != -1 || word.indexOf('выход') != -1).length > 0){
+      else if(splitted.filter(word => word.indexOf('стоп') != -1 || word.indexOf('хватит') != -1 || word.indexOf('выход') != -1 || word.indexOf('выйти') != -1).length > 0){
         state.err = 0;
       }
       else {
