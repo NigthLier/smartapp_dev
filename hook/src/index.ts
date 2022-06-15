@@ -1,5 +1,4 @@
 import { Dialute, SberRequest } from 'dialute';
-import e from 'express';
 
 function numstring(a: string){
   if(a.indexOf('тысяч') != -1 || a.indexOf('тыщ') != -1 || a === 'литр' || a === 'литра' || a === 'литров')
@@ -72,29 +71,29 @@ function mil(a: number){
 
 function vi_1(a: string){
   if(a == "Сбер")
-    return "Возможно, вы хотели изменить суточную норму, но я не понял вас. Попробуйте ещё раз или попросите справку.";
+    return "Возможно, вы хотели изменить суточную норму, но я не понял вас. Попробуйте ещё раз или вызовите справку.";
   if(a == "Афина")
-    return "Возможно, вы хотели изменить суточную норму, но я не поняла вас. Попробуйте ещё раз или попросите справку.";
+    return "Возможно, вы хотели изменить суточную норму, но я не поняла вас. Попробуйте ещё раз или вызовите справку.";
   if(a == "Джой")
-    return "Возможно, тебе хотелось изменить суточную норму, но я не поняла тебя. Попробуй ещё раз или попроси справку.";
+    return "Возможно, тебе хотелось изменить суточную норму, но я не поняла тебя. Попробуй ещё раз или вызови справку.";
 }
 
 function vi_2(a: string){
   if(a == "Сбер")
-    return "Возможно, вы хотели увеличить значаение счетчика, но я не понял вас. Попробуйте ещё раз или попросите справку.";
+    return "Возможно, вы хотели увеличить значаение счетчика, но я не понял вас. Попробуйте ещё раз или вызовите справку.";
   if(a == "eva")
-    return "Возможно, вы хотели увеличить значаение счетчика, но я не поняла вас. Попробуйте ещё раз или попросите справку.";
+    return "Возможно, вы хотели увеличить значаение счетчика, но я не поняла вас. Попробуйте ещё раз или вызовите справку.";
   if(a == "Джой")
-    return "Возможно, тебе хотелось увеличить значаение счетчика, но я не поняла тебя. Попробуй ещё раз или попроси справку.";
+    return "Возможно, тебе хотелось увеличить значаение счетчика, но я не поняла тебя. Попробуй ещё раз или вызови справку.";
 }
 
 function vi_3(a: string){
   if(a == "Сбер")
-    return "Я не понимаю, что вы хотите сказать. Попробуйте ещё раз или попросите справку.";
+    return "Я не понимаю, что вы хотите сказать. Попробуйте ещё раз или вызовите справку.";
   if(a == "Афина")
-    return "Я не понимаю, что вы хотите сказать. Попробуйте ещё раз или попросите справку.";
+    return "Я не понимаю, что вы хотите сказать. Попробуйте ещё раз или вызовите справку.";
   if(a == "Джой")
-    return "Я не понимаю, что ты хочешь сказать. Попробуй ещё раз или попроси справку.";
+    return "Я не понимаю, что ты хочешь сказать. Попробуй ещё раз или вызови справку.";
 }
 
 function vi_help(a: string, b: number){
@@ -146,8 +145,6 @@ function* script(r: SberRequest) {
   const rsp = r.buildRsp();
   const state = { loaded: false, waterCount: 0, waterMax: 2000, date: new Date().toLocaleString().substr(0,10), vis: "visible", err: 0};
   rsp.data = state;
-  rsp.msg = vi_help(r.charName, 0);
-  yield rsp;
   
   while (true) {
     if(r.type === 'RUN_APP'){
@@ -181,7 +178,7 @@ function* script(r: SberRequest) {
       if (r.act?.action_id === 'Zero') {
         state.waterCount = 0;
         state.waterMax = 2000;
-        rsp.msg = 'Значения обнулены';
+        rsp.msg = 'Значения сброшены';
         yield rsp;
       }
       if (r.act?.action_id === 'Help') {
@@ -194,12 +191,7 @@ function* script(r: SberRequest) {
       var numbered = 0;
       splitted.forEach(function (value){ let n = numstring(value); if(n != NaN) { if(n === 1000) { numbered *= n; } else { numbered += n; }}})
 
-      if(splitted.filter(word => word.indexOf('водяной баланс') != -1 || word.indexOf('трекер воды') != -1 || word.indexOf('счётчик воды') != -1).length > 0) {
-        rsp.msg = vi_hello(r.charName);
-        state.err = 0;
-        yield rsp;
-      }
-      else if(splitted.filter(word => word.indexOf('справк') != -1 || word.indexOf('помо') != -1 || word.indexOf('инф') != -1 || word.indexOf('help') != -1 || word.indexOf('как') != -1 ).length > 0){
+      if(splitted.filter(word => word.indexOf('справк') != -1 || word.indexOf('помо') != -1 || word.indexOf('инф') != -1 || word.indexOf('help') != -1 || word.indexOf('как') != -1 ).length > 0){
         state.err = 0;
         if(splitted.filter(word => word.indexOf('суточн') != -1 || word.indexOf('дневн') != -1 || word.indexOf('норм') != -1).length > 0)
           rsp.msg = vi_help(r.charName, 1);
@@ -270,7 +262,7 @@ function* script(r: SberRequest) {
         state.err = 0;
         state.waterCount = 0;
         state.waterMax = 2000;
-        rsp.msg = 'Значения обнуленЫ';
+        rsp.msg = 'Значения сброшены';
         yield rsp;
       }
       else if(splitted.filter(word => word.indexOf('показ') != -1 || word.indexOf('покаж') != -1).length > 0){
@@ -285,8 +277,17 @@ function* script(r: SberRequest) {
         rsp.msg = 'Кнопки спрятаны';
         yield rsp;
       }
-      else{
-        rsp.msg = vi_3(r.charName);
+      else {
+        if(state.err > 0){
+          rsp.msg = vi_3(r.charName);
+          state.err = 0;
+        }
+        else{
+          rsp.msg = ''
+          if(splitted.filter(word => word.indexOf('водяной баланс') != -1 || word.indexOf('трекер воды') != -1 || word.indexOf('счётчик воды') != -1).length > 0) {
+            rsp.msg = vi_hello(r.charName);}
+          state.err++;
+        }
         yield rsp;
       }
     }
@@ -297,23 +298,12 @@ Dialute.fromEntrypoint(script as GeneratorFunction).start();
 
 
 /*
-      else if(splitted.filter(word => word.indexOf('водяной баланс') != -1 || word.indexOf('трекер воды') != -1 || word.indexOf('счетчик воды') != -1).length > 0) {
+      else if(splitted.filter(word => word.indexOf('водяной баланс') != -1 || word.indexOf('трекер воды') != -1 || word.indexOf('счётчик воды') != -1).length > 0) {
         rsp.msg = vi_hello(r.charName);
         state.err = 0;
         yield rsp;
       }
       else if(splitted.filter(word => word.indexOf('стоп') != -1 || word.indexOf('хватит') != -1 || word.indexOf('выход') != -1 || word.indexOf('выйти') != -1).length > 0){
         state.err = 0;
-      }
-      else {
-        if(state.err > 1){
-          rsp.msg = vi_3(r.charName);
-          state.err = 0;
-        } 
-        else{
-          rsp.msg = ''
-          state.err++;
-        }
-        yield rsp;
       }
 */
