@@ -277,17 +277,13 @@ function* script(r: SberRequest) {
         rsp.msg = 'Кнопки спрятаны';
         yield rsp;
       }
+      else if(splitted.filter(word => word.indexOf('баланс') != -1 || word.indexOf('трекер') != -1 || word.indexOf('счётчик') != -1).length > 0) {
+        rsp.msg = vi_hello(r.charName);
+        state.err = 0;
+        yield rsp;
+      }
       else {
-        if(state.err > 0){
-          rsp.msg = vi_3(r.charName);
-          state.err = 0;
-        }
-        else{
-          rsp.msg = ''
-          if(splitted.filter(word => word.indexOf('водяной баланс') != -1 || word.indexOf('трекер воды') != -1 || word.indexOf('счётчик воды') != -1).length > 0) {
-            rsp.msg = vi_hello(r.charName);}
-          state.err++;
-        }
+        rsp.msg = vi_3(r.charName);
         yield rsp;
       }
     }
@@ -298,7 +294,7 @@ Dialute.fromEntrypoint(script as GeneratorFunction).start();
 
 
 /*
-      else if(splitted.filter(word => word.indexOf('водяной баланс') != -1 || word.indexOf('трекер воды') != -1 || word.indexOf('счётчик воды') != -1).length > 0) {
+      else if(splitted.filter(word => word.indexOf('баланс') != -1 || word.indexOf('трекер') != -1 || word.indexOf('счётчик') != -1).length > 0) {
         rsp.msg = vi_hello(r.charName);
         state.err = 0;
         yield rsp;
@@ -306,4 +302,14 @@ Dialute.fromEntrypoint(script as GeneratorFunction).start();
       else if(splitted.filter(word => word.indexOf('стоп') != -1 || word.indexOf('хватит') != -1 || word.indexOf('выход') != -1 || word.indexOf('выйти') != -1).length > 0){
         state.err = 0;
       }
+      else {
+        if(state.err > 0){
+          rsp.msg = vi_3(r.charName);
+          state.err = 0;
+        }
+        else{
+          rsp.msg = '';
+        yield rsp;
+      }
+    }
 */
