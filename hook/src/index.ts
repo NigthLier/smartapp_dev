@@ -165,7 +165,7 @@ function* script(r: SberRequest) {
       if (r.act?.action_id === 'AddWater') {
         state.waterCount += 200;
         rsp.msg = 'Выпито 200 миллилитров, так держать!';
-        if(state.waterCount > state.waterMax) {
+        if(state.waterCount >= state.waterMax) {
           state.waterCount = state.waterMax; 
           rsp.msg = 'Суточная норма достигнута!';
         }
@@ -240,15 +240,14 @@ function* script(r: SberRequest) {
       }
       else if(splitted.filter(word => word.indexOf('пил') != -1 || word.indexOf('пью') != -1 || word.indexOf('пить') != -1).length > 0) {
         rsp.msg =  vi_2(r.charName);
-        if(numbered != 0){
+        if(numbered != 0){ numbered = 200; }
           if(r.msg.toLowerCase().indexOf('стакан') != -1){ numbered *= 200;}
           state.waterCount += numbered;
           rsp.msg = 'Выпито ' + numbered + mil(numbered) + ', так держать!';
-          if(state.waterCount > state.waterMax) { 
+          if(state.waterCount >= state.waterMax) { 
             state.waterCount = state.waterMax; 
             rsp.msg = 'Суточная норма достигнута!';
           }
-        }
         yield rsp;
       }
       else if(splitted.filter(word => word.indexOf('обнул') != -1 || word.indexOf('сброс') != -1).length > 0){
@@ -267,7 +266,7 @@ function* script(r: SberRequest) {
         rsp.msg = 'Кнопки спрятаны';
         yield rsp;
       }
-      else if(splitted.filter(word => word.indexOf('баланс') != -1 || word.indexOf('трекер') != -1 || word.indexOf('счетчик') != -1).length > 0) {
+      else if(splitted.filter(word => word.indexOf('баланс') != -1 || word.indexOf('трекер') != -1 || word.indexOf('счетчик') != -1 || word.indexOf('тест') != -1).length > 0) {
         rsp.msg = vi_hello(r.charName);
         yield rsp;
       }
