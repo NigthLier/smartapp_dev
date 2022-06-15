@@ -154,8 +154,6 @@ function* script(r: SberRequest) {
   const rsp = r.buildRsp();
   const state = { loaded: false, waterCount: 0, waterMax: 2000, date: new Date().toLocaleString().substr(0,10), vis: "visible", err: 0};
   rsp.data = state;
-  rsp.msg = vi_start(r.charName);
-  yield rsp;
   
   while (true) {
     if(r.type === 'RUN_APP'){
