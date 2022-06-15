@@ -228,7 +228,7 @@ function* script(r: SberRequest) {
             if(state.waterMax < state.waterCount){ state.waterCount = state.waterMax; }
             rsp.msg = 'Установлена суточная норма в  ' + state.waterMax + mil(state.waterMax);
           }
-          if(splitted.filter(word => word.indexOf('устан') != -1 || word.indexOf('пост') != -1).length > 0) {
+          if(splitted.filter(word => word.indexOf('устан') != -1 || word.indexOf('пост') != -1 || word.indexOf('измен') != -1).length > 0) {
             state.waterMax = numbered;
             if(state.waterMax < 200) { state.waterMax = 200; }
             if(state.waterMax > 4000) { state.waterMax = 4000; }
@@ -238,7 +238,7 @@ function* script(r: SberRequest) {
         }
         yield rsp;
       }
-      else if(splitted.filter(word => word.indexOf('пил') != -1 || word.indexOf('пью') != -1 || word.indexOf('пить') != -1).length > 0) {
+      else if(splitted.filter(word => word.indexOf('пил') != -1 || word.indexOf('пью') != -1 || word.indexOf('пить') != -1 || word.indexOf('добав') != -1 || word.indexOf('прибав') != -1).length > 0) {
         rsp.msg =  vi_2(r.charName);
         if(numbered == 0){ numbered = 200; }
           if(r.msg.toLowerCase().indexOf('стакан') != -1){ numbered *= 200;}

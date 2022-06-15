@@ -286,7 +286,7 @@
     transition: all 1.4s linear;
     animation: waves 5s linear infinite;
   }
-
+/*
   .up{ 
     outline: none;
     -webkit-tap-highlight-color: transparent;
@@ -297,7 +297,7 @@
     -webkit-tap-highlight-color: transparent;
     transform: translate(0%, calc(-0.3vmin));
   }
-
+*/
   @keyframes hov{
     0%{}
     50%{ transform: scale(1.95); }
