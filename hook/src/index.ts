@@ -157,8 +157,11 @@ function* script(r: SberRequest) {
   
   while (true) {
     if(r.type === 'RUN_APP'){
-      rsp.msg = vi_start(r.charName);
-      yield rsp;
+      if(state.err == 0){
+        state.err += 1;
+        rsp.msg = vi_start(r.charName);
+        yield rsp;
+      }
     }
     else if(r.type === 'SERVER_ACTION')
     {
@@ -200,12 +203,7 @@ function* script(r: SberRequest) {
       var numbered = 0;
       splitted.forEach(function (value){ let n = numstring(value); if(n != NaN) { if(n === 1000) { numbered *= n; } else { numbered += n; }}})
 
-      if(state.err == 0){
-        state.err += 1;
-        rsp.msg = vi_start(r.charName);
-        yield rsp;
-      }
-      else if(splitted.filter(word => word.indexOf('справк') != -1 || word.indexOf('помо') != -1 || word.indexOf('инф') != -1 || word.indexOf('help') != -1 || word.indexOf('как') != -1 ).length > 0){
+      if(splitted.filter(word => word.indexOf('справк') != -1 || word.indexOf('помо') != -1 || word.indexOf('инф') != -1 || word.indexOf('help') != -1 || word.indexOf('как') != -1 ).length > 0){
         if(splitted.filter(word => word.indexOf('суточн') != -1 || word.indexOf('дневн') != -1 || word.indexOf('норм') != -1 || word.indexOf('макс') != -1).length > 0)
           rsp.msg = vi_help(r.charName, 1);
         else if(splitted.filter(word => word.indexOf('пил') != -1 || word.indexOf('пью') != -1 || word.indexOf('пить') != -1).length > 0)
