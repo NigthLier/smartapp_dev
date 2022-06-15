@@ -194,7 +194,12 @@ function* script(r: SberRequest) {
       var numbered = 0;
       splitted.forEach(function (value){ let n = numstring(value); if(n != NaN) { if(n === 1000) { numbered *= n; } else { numbered += n; }}})
 
-      if(splitted.filter(word => word.indexOf('справк') != -1 || word.indexOf('помо') != -1 || word.indexOf('инф') != -1 || word.indexOf('help') != -1 || word.indexOf('как') != -1 ).length > 0){
+      if(splitted.filter(word => word.indexOf('водяной баланс') != -1 || word.indexOf('трекер воды') != -1 || word.indexOf('счётчик воды') != -1).length > 0) {
+        rsp.msg = vi_hello(r.charName);
+        state.err = 0;
+        yield rsp;
+      }
+      else if(splitted.filter(word => word.indexOf('справк') != -1 || word.indexOf('помо') != -1 || word.indexOf('инф') != -1 || word.indexOf('help') != -1 || word.indexOf('как') != -1 ).length > 0){
         state.err = 0;
         if(splitted.filter(word => word.indexOf('суточн') != -1 || word.indexOf('дневн') != -1 || word.indexOf('норм') != -1).length > 0)
           rsp.msg = vi_help(r.charName, 1);
@@ -280,17 +285,8 @@ function* script(r: SberRequest) {
         rsp.msg = 'Кнопки спрятаны';
         yield rsp;
       }
-      else if(splitted.filter(word => word.indexOf('водяной баланс') != -1 || word.indexOf('трекер воды') != -1 || word.indexOf('счётчик воды') != -1).length > 0) {
-        rsp.msg = vi_hello(r.charName);
-        state.err = 0;
-        yield rsp;
-      }
       else{
         rsp.msg = vi_3(r.charName);
-        if(splitted.filter(word => word.indexOf('водяной баланс') != -1 || word.indexOf('трекер воды') != -1 || word.indexOf('счётчик воды') != -1).length > 0) {
-          rsp.msg = vi_hello(r.charName);
-          state.err = 0;
-        }
         yield rsp;
       }
     }
