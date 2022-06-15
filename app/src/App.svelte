@@ -6,8 +6,8 @@
 
   let assistant;
   let state = { loaded: false, waterCount: 0, waterMax: 2000, date: new Date(), vis: "visible", err: 0};
-  let token = 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJmZjAwMTI4ZGNhOWNiYWRlOTIwMWMxOTllZTFjYTM2ZTNiNjE5ZDMyMzgyNzk4NmQ4MDFmZjVhYTFiNmJhMDMwOTUzYTUiLCJhdWQiOiJWUFMiLCJleHAiOjE2NTQ4OTI4ODEsImlhdCI6MTY1NDgwNjQ3MSwiaXNzIjoiS0VZTUFTVEVSIiwidHlwZSI6IkJlYXJlciIsImp0aSI6Ijk0ZmU5OGNhLTFiNWUtNDE4ZC04OTZmLTQxMGFhY2Y1OWE1ZiIsInNpZCI6IjNhYTU0MjlkLTM4YjUtNGM5NS1iZjQ4LThmYThlM2MyZDdkMiJ9.izvezyB_YeK6PGVkrsJm44VIi2b17_T0SMm2SeE8Lf8n1gLQlAlRro2lzGs68zrsxSvpg9bbsjg3HDsbGiqc-ef3s9JmJz__khOJxDA4fDKCwabVqlZjzdIMSAGbEYIpQsHGz2ytYq_rq08gViZ8nPzhYMClFCHoFOnBuE6pit20FSsXRsr1vBFYMhueBUU83PIfBN-cc8Oj4kuUtBThDNm3hpNHCjEpYaEiOK4lYzl9VmHka7yJEODgC1FbfUV2B81dfqOrnHk1KEdipySuaX8xIGzvKjKP1lLrCfS68Iutim6e_tTL1CC4WotQVgQOHTGVXxJn53ifOdWqwRTfICzEaj1X2AFUIfsZMzd2R8fUZZ0wvRqLpt_lImww0DJN0-dzFwAV1UtSyTQM0oDMlGUCty6NWuhvoHG-uWjGJOvlmBkWqmnrSR_1AJIZAqGr2TPh2Jmx2rPB6N1f-za53suu5aDX4GrqJnIegLuyS_lf8_3KhKQetf1ep0V4fd5OsiCTzapsfhgmte2Bnj9Mq2yCddmCzKD5XXaOSy9s-m3ExFotL4tXUHVMKdSmbk9cVHpJ_BgxJDSXFYTXuCMXSgZ4xS6zCPeW73sTFNT6eAvr3YvEJ40gmJG3x54mledcQAzGhN5cxV3mA_w9xpnXrUBR8KOuZXQ9jFd07cPjHgw';
-  let initPhrase = 'Активируй Трекер воды';
+  let token = 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJmZjAwMTI4ZGNhOWNiYWRlOTIwMWMxOTllZTFjYTM2ZTNiNjE5ZDMyMzgyNzk4NmQ4MDFmZjVhYTFiNmJhMDMwOTUzYTUiLCJhdWQiOiJWUFMiLCJleHAiOjE2NTUzNjE0NjgsImlhdCI6MTY1NTI3NTA1OCwiaXNzIjoiS0VZTUFTVEVSIiwidHlwZSI6IkJlYXJlciIsImp0aSI6IjFkNWMyMjRkLTI5YTYtNDY1NS1iMzA0LWRkMWUyYTkwZWZmNyIsInNpZCI6IjMzNzAxZmI2LTMwNDQtNGI4NS05Njc5LTA4ZGI5YjI1NzU2YiJ9.qzzJK5IArKWKXdvizpPy8VpkizlAFoc8e6DCs0Ubo9MgkMuiH5ex8nEItSLmxcALObjMvfSb5lJg4H8ODkEonDkadTW2CVD3Uzc32FX0UbV9Hg9ll6dSAYbT80NYjRzQbqHxGIIxa7M9xH0z2xkUWSqhxh_iRJtbe6_TtEcP96Ssxcbf2B2PpGrIsRb4aqyfoJ0TkbcpdneaRlu0iMat9R8RJpIe0mds1_8wLi2Oi9y7WSDM0Re0m25AiD2BUAHS56_wUTUrJUNZx6e7euNBVc-0_C7Go4oNMHDWtG4bEMXY4VKwe0nLsF9TwEGz06eSRd461hqdzUzXQU2zcixIWfuZWP0keMMnnluESP_GSDAYLapFFeBaMR-2wA55ROBuxGbEuH7uADz1kt_J6K4R7NBkSjS9feFdH8zZctAUgiTnUpnVLfNZ4eyjsiEG8gBITg6cwWB4NwnA0Gbl59jnZuAmaUBcP5gLgPQTWZn8hdm_IW1YOZxc0JnNyStSdcC2IOwwXYRKYWgdr9rpKwmHBeFSvCMFc8QMDzj_J-xgNoILLilTU36o3FHzI1Vv5pL8vlti6qLufbU8eD_sCVsYlyRAk35LriPddRZNlpTlWAxoPap3OO1kHZWHk1FefWUpvqUFgsQRXxqET1raIOf_IcFqXdK1FM7ydF-ZWK2Soz4';
+  let initPhrase = 'Активируй Тестовый апп';
 
   let character = 'sber';
   $: setTheme(character);
@@ -110,11 +110,13 @@
 <style>
   :global(html) {
     outline: none;
+    -webkit-tap-highlight-color: transparent;
     background: var(--plasma-colors-gradient);
   }
 
   body {
     outline: none;
+    -webkit-tap-highlight-color: transparent;
     display: flex;
     flex-flow: column;
     height: 100%;
@@ -122,6 +124,7 @@
 
   main {
     outline: none;
+    -webkit-tap-highlight-color: transparent;
     display: flex;
     padding: 1em;
     margin: 0 auto;
@@ -129,6 +132,7 @@
 
   .don {
     outline: none;
+    -webkit-tap-highlight-color: transparent;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -136,6 +140,7 @@
 
   .res {
     outline: none;
+    -webkit-tap-highlight-color: transparent;
     display: flex;
     flex-wrap: wrap;
     flex-flow: column;
@@ -145,6 +150,7 @@
 
   .cor {
     outline: none;
+    -webkit-tap-highlight-color: transparent;
     display: flex;
     flex-flow: row;
     justify-content:space-around;
@@ -154,6 +160,7 @@
 
   button {
     outline: none;
+    -webkit-tap-highlight-color: transparent;
     display: flexbox;
     background: var(--plasma-colors-buttonAccent);
     border: none;
@@ -167,6 +174,7 @@
 
   cent {
     outline: none;
+    -webkit-tap-highlight-color: transparent;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -177,16 +185,19 @@
 
   .shadow {
     outline: none;
+    -webkit-tap-highlight-color: transparent;
     box-shadow: 0 3px 20px rgba(0,0,0,.25), inset 0 2px 0 rgba(255,255,255,.6), 0 2px 0 rgba(0,0,0,.1), inset 0 0 20px rgba(0,0,0,.1);
   }
   
   .shadow:hover {
     outline: none;
+    -webkit-tap-highlight-color: transparent;
     box-shadow: inset 0 0 20px rgba(0,0,0,.2), 0 2px 0 rgba(255,255,255,.4), inset 0 2px 0 rgba(0,0,0,.1);
   }
 
   .buttoncup{
     outline: none;
+    -webkit-tap-highlight-color: transparent;
     justify-content: center;
     align-items: center;
     align-self: center;
@@ -204,10 +215,12 @@
 
   .buttoncup:active{
     outline: none;
+    -webkit-tap-highlight-color: transparent;
     transition-duration: .2s;
     box-shadow: inset 0 0 calc(1vmin) var(--plasma-colors-buttonFocused);
   }
 
+/*
   .h1:hover{
     outline: none;
     transition-duration: .2s;
@@ -228,9 +241,11 @@
     transition-duration: .2s;
     transform: translate(+5%, +5%);
   }
+  */
 
   .cup{
     outline: none;
+    -webkit-tap-highlight-color: transparent;
     justify-content: center;
     align-items: center;
     align-self: center;
@@ -249,17 +264,20 @@
 
   .cup:hover{
     outline: none;
+    -webkit-tap-highlight-color: transparent;
     animation: none;
   }
 
   .cup:active{
     outline: none;
+    -webkit-tap-highlight-color: transparent;
     transition-duration: .2s;
     box-shadow: inset 0 0 calc(5vmin) var(--plasma-colors-buttonFocused);
   }
   
   .wave{
     outline: none;
+    -webkit-tap-highlight-color: transparent;
     width: calc(80vmin);
     height: calc(80vmin);
     position: absolute;
@@ -271,11 +289,13 @@
 
   .up{ 
     outline: none;
-    transform: translate(0%, -8%); 
+    -webkit-tap-highlight-color: transparent;
+    transform: translate(0%, calc(-0.5vmin)); 
   }
   .up1{
     outline: none;
-    transform: translate(0%, -5%);
+    -webkit-tap-highlight-color: transparent;
+    transform: translate(0%, calc(-0.3vmin));
   }
 
   @keyframes hov{
@@ -295,17 +315,6 @@
     100%{
       transform: rotate(360deg);
       border-radius: 30%;
-    }
-  }
-
-  @media (max-width: 640px) {
-    .up{ 
-      outline: none;
-      transform: translate(0%, -5%);
-    }
-    .up1{ 
-      outline: none;
-      transform: translate(0%, -3%);
     }
   }
 </style>

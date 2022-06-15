@@ -146,6 +146,8 @@ function* script(r: SberRequest) {
   const rsp = r.buildRsp();
   const state = { loaded: false, waterCount: 0, waterMax: 2000, date: new Date().toLocaleString().substr(0,10), vis: "visible", err: 0};
   rsp.data = state;
+  rsp.msg = vi_help(r.charName, 0);
+  yield rsp;
   
   while (true) {
     if(r.type === 'RUN_APP'){
@@ -263,7 +265,7 @@ function* script(r: SberRequest) {
         state.err = 0;
         state.waterCount = 0;
         state.waterMax = 2000;
-        rsp.msg = 'Значения обнулены';
+        rsp.msg = 'Значения обнуленЫ';
         yield rsp;
       }
       else if(splitted.filter(word => word.indexOf('показ') != -1 || word.indexOf('покаж') != -1).length > 0){
@@ -278,15 +280,13 @@ function* script(r: SberRequest) {
         rsp.msg = 'Кнопки спрятаны';
         yield rsp;
       }
-      else {
-        if(state.err > 1){
-          rsp.msg = vi_3(r.charName);
-          state.err = 0;
-        } 
-        else{
-          rsp.msg = ''
-          state.err++;
-        }
+      else if(splitted.filter(word => word.indexOf('водяной баланс') != -1 || word.indexOf('трекер воды') != -1 || word.indexOf('счетчик воды') != -1).length > 0) {
+        rsp.msg = vi_hello(r.charName);
+        state.err = 0;
+        yield rsp;
+      }
+      else{
+        rsp.msg = vi_3(r.charName);
         yield rsp;
       }
     }
@@ -304,5 +304,16 @@ Dialute.fromEntrypoint(script as GeneratorFunction).start();
       }
       else if(splitted.filter(word => word.indexOf('стоп') != -1 || word.indexOf('хватит') != -1 || word.indexOf('выход') != -1 || word.indexOf('выйти') != -1).length > 0){
         state.err = 0;
+      }
+      else {
+        if(state.err > 1){
+          rsp.msg = vi_3(r.charName);
+          state.err = 0;
+        } 
+        else{
+          rsp.msg = ''
+          state.err++;
+        }
+        yield rsp;
       }
 */
