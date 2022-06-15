@@ -280,13 +280,17 @@ function* script(r: SberRequest) {
         rsp.msg = 'Кнопки спрятаны';
         yield rsp;
       }
-      else if(splitted.filter(word => word.indexOf('водяной баланс') != -1 || word.indexOf('трекер воды') != -1 || word.indexOf('счетчик воды') != -1).length > 0) {
+      else if(splitted.filter(word => word.indexOf('водяной баланс') != -1 || word.indexOf('трекер воды') != -1 || word.indexOf('счётчик воды') != -1).length > 0) {
         rsp.msg = vi_hello(r.charName);
         state.err = 0;
         yield rsp;
       }
       else{
         rsp.msg = vi_3(r.charName);
+        if(splitted.filter(word => word.indexOf('водяной баланс') != -1 || word.indexOf('трекер воды') != -1 || word.indexOf('счётчик воды') != -1).length > 0) {
+          rsp.msg = vi_hello(r.charName);
+          state.err = 0;
+        }
         yield rsp;
       }
     }
