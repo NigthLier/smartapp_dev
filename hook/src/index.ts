@@ -169,7 +169,6 @@ function* script(r: SberRequest) {
           state.waterCount = state.waterMax; 
           rsp.msg = 'Суточная норма достигнута!';
         }
-        
         yield rsp;
       }
       if (r.act?.action_id === 'AddMax') {
@@ -181,6 +180,7 @@ function* script(r: SberRequest) {
       if (r.act?.action_id === 'SubMax') {
         state.waterMax -= 200;
         if(state.waterMax < 200){ state.waterMax = 200; }
+        if(state.waterCount > state.waterMax) { state.waterCount = state.waterMax; }
         rsp.msg = 'Установлена суточная норма в  ' + state.waterMax + mil(state.waterMax);
         yield rsp;
       }
@@ -240,7 +240,7 @@ function* script(r: SberRequest) {
       }
       else if(splitted.filter(word => word.indexOf('пил') != -1 || word.indexOf('пью') != -1 || word.indexOf('пить') != -1 || word.indexOf('добав') != -1 || word.indexOf('прибав') != -1).length > 0) {
         rsp.msg =  vi_2(r.charName);
-        if(numbered == 0){ numbered = 200; }
+        if(numbered != 0){
           if(r.msg.toLowerCase().indexOf('стакан') != -1){ numbered *= 200;}
           state.waterCount += numbered;
           rsp.msg = 'Выпито ' + numbered + mil(numbered) + ', так держать!';
@@ -248,6 +248,7 @@ function* script(r: SberRequest) {
             state.waterCount = state.waterMax; 
             rsp.msg = 'Суточная норма достигнута!';
           }
+        }
         yield rsp;
       }
       else if(splitted.filter(word => word.indexOf('обнул') != -1 || word.indexOf('сброс') != -1).length > 0){
