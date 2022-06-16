@@ -184,6 +184,7 @@
   }
 
   .big{
+    font-weight: 400;
     font-size: calc(7vmin);
   }
 
