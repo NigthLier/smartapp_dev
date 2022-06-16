@@ -98,7 +98,7 @@
       <cent class = "h2"><cent on:click={handleSubMax} class = "buttoncup"><span class="up" style="outline: none;">-</span></cent></cent>
     </main>
     <main class="don">
-      <cent on:click={handleAddWater} class = "cup" style="outline: none;"> {state.waterCount} / {state.waterMax} <cent class="wave" style="top: calc((1 - {state.waterCount} / {state.waterMax}) * 100%);"></cent> </cent>
+      <cent on:click={handleAddWater} class = "cup big" style="outline: none;"> {state.waterCount} / {state.waterMax} <cent class="wave" style="top: calc((1 - {state.waterCount} / {state.waterMax}) * 100%);"></cent> </cent>
     </main>
     <main class="res" style="visibility: {state.vis};">
       <cent class = "h3"><cent on:click={handleZero} class = "buttoncup" ><span class="up1" style="outline: none;">0</span></cent></cent>
@@ -181,6 +181,10 @@
     color: var(--plasma-colors-accent);
     font-weight: 100;
     font-size: calc(5vmin);
+  }
+
+  .big{
+    font-size: calc(8vmin);
   }
 
   .shadow {
