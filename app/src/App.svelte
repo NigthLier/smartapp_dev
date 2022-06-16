@@ -184,7 +184,7 @@
   }
 
   .big{
-    font-size: calc(8vmin);
+    font-size: calc(7vmin);
   }
 
   .shadow {
